@@ -50,6 +50,22 @@ function lib:fireMissleAt(x, y)
     return true
 end
 
+function lib:destroyStuffInCircle(x, y, r)
+    for _, base in ipairs(self.bases) do
+        if utils.distance(base.x, base.y, x, y) < r then
+            base.ok = false
+        end
+    end
+
+    for _, town in ipairs(self.towns) do
+        if utils.distance(town.x, town.y, x, y) < r then
+            town.ok = false
+        end
+    end
+
+
+end
+
 function lib:update()
     for _, m in ipairs(self.missles) do
         local vx, vy = m.gx - m.sx, m.gy - m.sy
@@ -61,6 +77,7 @@ function lib:update()
         if dcurfromstart > dstartfromgoal then
             m.exploded = true
             table.insert(self.explosions, {x=m.gx, y=m.gy, frames=0})
+            self:destroyStuffInCircle(m.gx, m.gy, const.explosionradius)
         end
     end
 
