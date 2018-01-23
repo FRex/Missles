@@ -39,7 +39,7 @@ function lib:getNearestWorkingBase(x, y)
 end
 
 local function Missle(x, y, gx, gy, s)
-    return {sx=x, sy=y, x=x, y=y, gx=gx, gy=gy, speed=s}
+    return {sx=x, sy=y, x=x, y=y, gx=gx, gy=gy, speed=s, ok = true}
 end
 
 function lib:fireMissleAt(x, y)
@@ -51,19 +51,13 @@ function lib:fireMissleAt(x, y)
 end
 
 function lib:destroyStuffInCircle(x, y, r)
-    for _, base in ipairs(self.bases) do
-        if utils.distance(base.x, base.y, x, y) < r then
-            base.ok = false
+    for _, c in ipairs{self.bases, self.towns, self.missles} do
+        for _, o in ipairs(c) do
+            if utils.distance(o.x, o.y, x, y) < r then
+                o.ok = false
+            end
         end
     end
-
-    for _, town in ipairs(self.towns) do
-        if utils.distance(town.x, town.y, x, y) < r then
-            town.ok = false
-        end
-    end
-
-
 end
 
 function lib:update()
@@ -75,7 +69,7 @@ function lib:update()
         local dcurfromstart = utils.distance(m.x, m.y, m.sx, m.sy)
         local dstartfromgoal = utils.distance(m.sx, m.sy, m.gx, m.gy)
         if dcurfromstart > dstartfromgoal then
-            m.exploded = true
+            m.ok = false
             table.insert(self.explosions, {x=m.gx, y=m.gy, frames=0})
             self:destroyStuffInCircle(m.gx, m.gy, const.explosionradius)
         end
@@ -85,7 +79,7 @@ function lib:update()
         e.frames = e.frames + 1
     end
 
-    utils.removeif(self.missles, function(m) return m.exploded end)
+    utils.removeif(self.missles, function(m) return not m.ok end)
     utils.removeif(self.explosions, function(e) return e.frames > const.explosionmaxframes end)
 end
 
