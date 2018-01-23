@@ -1,6 +1,7 @@
 local love = require 'love'
 local utils = require 'utils'
 local game = require'game'
+local const = require 'const'
 
 local g = game.Game()
 
@@ -35,7 +36,7 @@ function love.draw()
     end
 
     for _, e in ipairs(g.explosions) do
-        local g = explosionmaxframes - e.frames
+        local g = const.explosionmaxframes - e.frames
         love.graphics.setColor(0xff, 0xff, 0xff, g)
         love.graphics.circle('fill', e.x, e.y, 50)
     end

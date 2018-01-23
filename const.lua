@@ -1,0 +1,3 @@
+return {
+    explosionmaxframes = 60,
+}

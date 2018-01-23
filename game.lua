@@ -1,9 +1,8 @@
 local utils = require 'utils'
+local const = require 'const'
 
 local lib = {}
 local meta = {__index = lib}
-
-local explosionmaxframes = 60
 
 function lib.Game()
     local ret = setmetatable({}, meta)
@@ -22,8 +21,7 @@ function lib:getNearestWorkingBase(x, y)
     for _, b in ipairs(self.bases) do
         local d = utils.distance(b.x, b.y, x, y)
         if b.ammo > 0 and d < dist then
-            dist = d
-            ret = b
+            dist, ret = d, b
         end
     end
     return ret
@@ -43,8 +41,8 @@ end
 
 function lib:update()
     for _, m in ipairs(self.missles) do
-        local vx, vy = m.gx - m.sx, m.gy - m.sy
-        local len = math.sqrt(vx^2 + vy^2)
+        local len = utils.distance(m.gx, m.gy, m.sx, m.sy)
+        assert(len1 == len, 'lens')
         m.x = m.x + vx * m.speed / len
         m.y = m.y + vy * m.speed / len
         local dcurfromstart = utils.distance(m.x, m.y, m.sx, m.sy)
@@ -60,7 +58,7 @@ function lib:update()
     end
 
     utils.removeif(self.missles, function(m) return m.exploded end)
-    utils.removeif(self.explosions, function(e) return e.frames > explosionmaxframes end)
+    utils.removeif(self.explosions, function(e) return e.frames > const.explosionmaxframes end)
 end
 
 return lib
