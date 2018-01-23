@@ -1,0 +1,31 @@
+Game Requirements
+
+    The game must have:
+        Start screen
+        Key to return to the start screen
+        Score system
+        Graphics representative and capturing the spirit of a Missile Command clone
+        Sound effects
+    While single player is the goal, a multiplayer mode is also acceptable
+    Gameplay mechanics in the spirit of Missile Command - the game does not need to be an exact clone, but it does need to have Missile Command gameplay
+
+Art Requirements
+
+    The game may be in 2D or 3D
+
+Duration
+
+December 1, 2017 to January 31, 2018
+
+Submission
+
+Post your entries on this thread:
+
+    Link to the executable (specify the platform)
+    Screenshots: Create a GameDev.net Gallery Album for your Project and upload your screenshots there! Post the link in the thread and your screenshots will be automatically linked and embedded into the post. Same with YouTube or Vimeo trailers.
+    A small post-mortem in a GameDev.net Blog, with a link posted in this thread, is encouraged, where you can share what went right, what went wrong, or just share a nifty trick
+    Source-code link is encouraged for educational purposes
+
+Award
+
+Developers who complete the challenge in the specified time frame will receive the 2018 New Year Challenge: Missile Command medal, which will be visible in their profiles.
