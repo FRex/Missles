@@ -23,15 +23,26 @@ end
 
 function love.draw()
     for _, base in ipairs(g.bases) do
-        love.graphics.setColor(0x0, 0xff, 0x0)
+        if base.ok then
+            love.graphics.setColor(0x0, 0xff, 0x0)
+        else
+            love.graphics.setColor(0xff, 0x0, 0x0)
+        end
         local bw, bh = 50, const.baseheight
         love.graphics.rectangle('fill', base.x - bw / 2, base.y - bh / 2, bw, bh)
         love.graphics.setColor(0xff, 0x0, 0x0)
-        love.graphics.print(base.ammo, base.x - bw / 2, base.y - bh / 2, 0, 2, 2)
+        if base.ok then
+            love.graphics.print(base.ammo, base.x - bw / 2, base.y - bh / 2, 0, 2, 2)
+        end
     end
 
     for _, town in ipairs(g.towns) do
-        love.graphics.setColor(0x0, 0x0, 0xff)
+        if town.ok then
+            love.graphics.setColor(0x0, 0x0, 0xff)
+        else
+            love.graphics.setColor(0xff, 0x0, 0x0)
+        end
+
         local tw, th = const.townwidth, const.townheight
         love.graphics.rectangle('fill', town.x - tw / 2, town.y - th / 2, tw, th)
     end
