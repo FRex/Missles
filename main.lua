@@ -58,6 +58,10 @@ function love.draw()
     for _, e in ipairs(g.explosions) do
         local g = const.explosionmaxframes - e.frames
         love.graphics.setColor(0xff, 0xff, 0xff, g)
-        love.graphics.circle('fill', e.x, e.y, 50)
+        love.graphics.circle('fill', e.x, e.y, const.explosionradius)
     end
+
+    love.graphics.setColor(0x7f, 0x0, 0x0, 0x7f)
+    local x, y = love.mouse.getPosition()
+    love.graphics.circle('fill', x, y, const.explosionradius)
 end

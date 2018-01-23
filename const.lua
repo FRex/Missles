@@ -6,4 +6,5 @@ return {
     baseheight = 30,
     townwidth = 30,
     townheight = 30,
+    explosionradius = 50,
 }
