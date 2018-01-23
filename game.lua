@@ -8,10 +8,21 @@ function lib.Game()
     local ret = setmetatable({}, meta)
     ret.missles = {}
     ret.explosions = {}
+    local gl = const.groundlevel - const.baseheight / 2
     ret.bases = {
-        {x = 100, y = 500, ammo = 5},
-        {x = 400, y = 500, ammo = 5},
-        {x = 700, y = 500, ammo = 5},
+        {x = 100, y = gl, ammo = 5},
+        {x = 400, y = gl, ammo = 5},
+        {x = 700, y = gl, ammo = 5},
+    }
+    local gl = const.groundlevel - const.townheight / 2
+    ret.towns = {
+        {x = 175, y = gl, ok = true},
+        {x = 250, y = gl, ok = true},
+        {x = 325, y = gl, ok = true},
+        --middle base is here
+        {x = 475, y = gl, ok = true},
+        {x = 550, y = gl, ok = true},
+        {x = 625, y = gl, ok = true},
     }
     return ret
 end
@@ -35,14 +46,14 @@ function lib:fireMissleAt(x, y)
     local base = self:getNearestWorkingBase(x, y)
     if not base then return false end
     base.ammo = base.ammo - 1
-    table.insert(self.missles, Missle(base.x, base.y, x, y, 1))
+    table.insert(self.missles, Missle(base.x, base.y, x, y, const.misslespeed))
     return true
 end
 
 function lib:update()
     for _, m in ipairs(self.missles) do
-        local len = utils.distance(m.gx, m.gy, m.sx, m.sy)
-        assert(len1 == len, 'lens')
+        local vx, vy = m.gx - m.sx, m.gy - m.sy
+        local len = math.sqrt(vx^2 + vy^2)
         m.x = m.x + vx * m.speed / len
         m.y = m.y + vy * m.speed / len
         local dcurfromstart = utils.distance(m.x, m.y, m.sx, m.sy)

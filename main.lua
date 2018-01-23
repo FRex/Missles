@@ -24,11 +24,20 @@ end
 function love.draw()
     for _, base in ipairs(g.bases) do
         love.graphics.setColor(0x0, 0xff, 0x0)
-        local bw = 50
-        love.graphics.rectangle('fill', base.x - bw / 2, base.y, bw, 30)
+        local bw, bh = 50, const.baseheight
+        love.graphics.rectangle('fill', base.x - bw / 2, base.y - bh / 2, bw, bh)
         love.graphics.setColor(0xff, 0x0, 0x0)
-        love.graphics.print(base.ammo, base.x - bw / 2, base.y, 0, 2, 2)
+        love.graphics.print(base.ammo, base.x - bw / 2, base.y - bh / 2, 0, 2, 2)
     end
+
+    for _, town in ipairs(g.towns) do
+        love.graphics.setColor(0x0, 0x0, 0xff)
+        local tw, th = const.townwidth, const.townheight
+        love.graphics.rectangle('fill', town.x - tw / 2, town.y - th / 2, tw, th)
+    end
+
+    love.graphics.setColor(0x33, 0x24, 0x1f)
+    love.graphics.rectangle('fill', 0, const.groundlevel, 800, 10^5)
 
     for _, m in ipairs(g.missles) do
         love.graphics.setColor(0xff, 0xff, 0xff)
