@@ -19,6 +19,10 @@ function love.keypressed(key, scancode, isrepeat)
     if scancode == 'space' then
         g:fireMissleAt(love.mouse.getPosition())
     end
+
+    if scancode == 'e' then
+        g:fireEnemyMissle()
+    end
 end
 
 function love.draw()

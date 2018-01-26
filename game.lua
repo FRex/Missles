@@ -50,6 +50,23 @@ function lib:fireMissleAt(x, y)
     return true
 end
 
+local function filterok(tab, out)
+    for i, v in ipairs(tab) do
+        if v.ok then
+            table.insert(out, v)
+        end
+    end
+    return out
+end
+
+function lib:fireEnemyMissle()
+    local targets = filterok(self.towns, {})
+    targets = filterok(self.bases, targets)
+    if #targets == 0 then return end
+    local t = targets[math.random(1, #targets)]
+    table.insert(self.missles, Missle(math.random(0, 800), 0, t.x, t.y, const.misslespeed))
+end
+
 function lib:destroyStuffInCircle(x, y, r)
     for _, c in ipairs{self.bases, self.towns, self.missles} do
         for _, o in ipairs(c) do
