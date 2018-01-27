@@ -1,6 +1,7 @@
 return {
     explosionmaxframes = 60,
-    misslespeed = 1,
+    misslespeed = 3,
+    enemymisslespeed = 1,
     groundlevel = 500,
     basewidth = 50,
     baseheight = 30,

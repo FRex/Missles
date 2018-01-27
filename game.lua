@@ -64,7 +64,7 @@ function lib:fireEnemyMissle()
     targets = filterok(self.bases, targets)
     if #targets == 0 then return end
     local t = targets[math.random(1, #targets)]
-    table.insert(self.missles, Missle(math.random(0, 800), 0, t.x, t.y, const.misslespeed))
+    table.insert(self.missles, Missle(math.random(0, 800), 0, t.x, t.y, const.enemymisslespeed))
 end
 
 function lib:destroyStuffInCircle(x, y, r)

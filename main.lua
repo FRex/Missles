@@ -67,5 +67,9 @@ function love.draw()
 
     love.graphics.setColor(0x7f, 0x0, 0x0, 0x7f)
     local x, y = love.mouse.getPosition()
-    love.graphics.circle('fill', x, y, const.explosionradius)
+    local b = g:getNearestWorkingBase(x, y)
+    if b then
+        love.graphics.line(b.x, b.y, x, y)
+        love.graphics.circle('fill', x, y, const.explosionradius)
+    end
 end
