@@ -73,7 +73,7 @@ function love.draw()
     local x, y = love.mouse.getPosition()
     local b = g:getNearestWorkingBase(x, y)
     if b then
-        love.graphics.line(b.x, b.y, x, y)
+        love.graphics.line(b.x, b.y - const.baseheight / 2, x, y)
         love.graphics.circle('fill', x, y, const.explosionradius)
     end
 
