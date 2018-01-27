@@ -38,15 +38,15 @@ function lib:getNearestWorkingBase(x, y)
     return ret
 end
 
-local function Missle(x, y, gx, gy, s)
-    return {sx=x, sy=y, x=x, y=y, gx=gx, gy=gy, speed=s, ok = true}
+local function Missle(x, y, gx, gy, s, en)
+    return {sx=x, sy=y, x=x, y=y, gx=gx, gy=gy, speed=s, ok = true, enemy = en}
 end
 
 function lib:fireMissleAt(x, y)
     local base = self:getNearestWorkingBase(x, y)
     if not base then return false end
     base.ammo = base.ammo - 1
-    table.insert(self.missles, Missle(base.x, base.y - const.baseheight / 2, x, y, const.misslespeed))
+    table.insert(self.missles, Missle(base.x, base.y - const.baseheight / 2, x, y, const.misslespeed, false))
     return true
 end
 
@@ -64,7 +64,8 @@ function lib:fireEnemyMissle()
     targets = filterok(self.bases, targets)
     if #targets == 0 then return end
     local t = targets[math.random(1, #targets)]
-    table.insert(self.missles, Missle(math.random(0, 800), 0, t.x, t.y, const.enemymisslespeed))
+    local r = math.random(-const.misslexrand, const.misslexrand)
+    table.insert(self.missles, Missle(math.random(0, 800), 0, t.x + r, t.y, const.enemymisslespeed, true))
 end
 
 function lib:destroyStuffInCircle(x, y, r)

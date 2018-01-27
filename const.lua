@@ -8,4 +8,5 @@ return {
     townwidth = 30,
     townheight = 30,
     explosionradius = 50,
+    misslexrand = 50,
 }

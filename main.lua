@@ -55,7 +55,12 @@ function love.draw()
     love.graphics.rectangle('fill', 0, const.groundlevel, 800, 10^5)
 
     for _, m in ipairs(g.missles) do
-        love.graphics.setColor(0xff, 0xff, 0xff)
+        if m.enemy then
+            love.graphics.setColor(0xff, 0x0, 0x0)
+        else
+            love.graphics.setColor(0x00, 0xff, 0x0)
+            love.graphics.circle('line', m.gx, m.gy, 5)
+        end
         love.graphics.line(m.sx, m.sy, m.x, m.y)
     end
 
@@ -65,7 +70,7 @@ function love.draw()
         love.graphics.circle('fill', e.x, e.y, const.explosionradius)
     end
 
-    love.graphics.setColor(0x7f, 0x0, 0x0, 0x7f)
+    love.graphics.setColor(0x0, 0x7f, 0x0, 0x7f)
     local x, y = love.mouse.getPosition()
     local b = g:getNearestWorkingBase(x, y)
     if b then
