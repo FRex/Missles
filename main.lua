@@ -4,6 +4,8 @@ local game = require'game'
 local const = require 'const'
 
 local g = game.Game()
+local font = love.graphics.newFont(const.fontfilename, 24)
+love.graphics.setFont(font)
 
 function love.update(dt)
     g:update()
@@ -36,7 +38,7 @@ function love.draw()
         love.graphics.rectangle('fill', base.x - bw / 2, base.y - bh / 2, bw, bh)
         love.graphics.setColor(0xff, 0x0, 0x0)
         if base.ok then
-            love.graphics.print(base.ammo, base.x - bw / 2, base.y - bh / 2, 0, 2, 2)
+            love.graphics.print(base.ammo, base.x - bw / 2, base.y - bh / 2)
         end
     end
 
@@ -50,9 +52,6 @@ function love.draw()
         local tw, th = const.townwidth, const.townheight
         love.graphics.rectangle('fill', town.x - tw / 2, town.y - th / 2, tw, th)
     end
-
-    love.graphics.setColor(0x33, 0x24, 0x1f)
-    love.graphics.rectangle('fill', 0, const.groundlevel, 800, 10^5)
 
     for _, m in ipairs(g.missles) do
         if m.enemy then
@@ -77,4 +76,9 @@ function love.draw()
         love.graphics.line(b.x, b.y, x, y)
         love.graphics.circle('fill', x, y, const.explosionradius)
     end
+
+    love.graphics.setColor(0x33, 0x24, 0x1f)
+    love.graphics.rectangle('fill', 0, const.groundlevel, 800, 10^5)
+    love.graphics.setColor(0xff, 0xff, 0xff)
+    love.graphics.print('Level: ' .. g.level, 0, const.groundlevel)
 end

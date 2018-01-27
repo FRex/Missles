@@ -7,6 +7,7 @@ local meta = {__index = lib}
 function lib.Game()
     local ret = setmetatable({}, meta)
     ret.missles = {}
+    ret.level = 1
     ret.explosions = {}
     local gl = const.groundlevel - const.baseheight / 2
     ret.bases = {
