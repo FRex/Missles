@@ -1,4 +1,5 @@
 local love = require 'love'
+math.random, math.randomseed = love.math.random, nil
 local utils = require 'utils'
 local game = require'game'
 local const = require 'const'
