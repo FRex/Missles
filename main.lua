@@ -10,7 +10,7 @@ love.graphics.setFont(font)
 
 
 local gamecallback = {}
-function gamecallback.update(dt)
+function gamecallback.update()
     g:update()
 end
 
@@ -18,11 +18,19 @@ function gamecallback.mousepressed(x, y, button)
     if button == 1 then
         g:fireMissleAt(x, y)
     end
+
+    if button == 2 then
+        state = 'pause'
+    end
 end
 
 function gamecallback.keypressed(key, scancode, isrepeat)
     if scancode == 'space' then
         g:fireMissleAt(love.mouse.getPosition())
+    end
+
+    if scancode == 'escape' then
+        state = 'pause'
     end
 
     if const.dev and scancode == 'e' then
@@ -86,14 +94,54 @@ function gamecallback.draw()
     love.graphics.print('Level: ' .. g.level, 0, const.groundlevel)
 end
 
+local pausecallback = {}
+function pausecallback.update()
+
+end
+
+function pausecallback.mousepressed(x, y, button)
+
+end
+
+function pausecallback.keypressed(key, scancode, isrepeat)
+
+end
+
+function pausecallback.draw()
+
+end
+
+local menucallback = {}
+function menucallback.update()
+
+end
+
+function menucallback.mousepressed(x, y, button)
+
+end
+
+function menucallback.keypressed(key, scancode, isrepeat)
+
+end
+
+function menucallback.draw()
+
+end
+
 local callbacks = {
     game = gamecallback,
-    pause = nil,
-    menu = nil,
+    pause = pausecallback,
+    menu = menucallback,
 }
 
+local timesaved = 0
 function love.update(dt)
-    callbacks[state].update(dt)
+    timesaved = timesaved + dt
+    local steptime = 1 / 60
+    while timesaved >= steptime do
+        timesaved = timesaved - steptime
+        callbacks[state].update(dt)
+    end
 end
 
 function love.mousepressed(x, y, button)
