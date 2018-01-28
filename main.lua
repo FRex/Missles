@@ -4,8 +4,12 @@ local utils = require 'utils'
 local game = require'game'
 local const = require 'const'
 
-local g = game.Game()
-local state = 'game'
+local g
+local state = const.initialstate
+if state ~= 'menu' then
+    g = game.Game()
+end
+
 local font = love.graphics.newFont(const.fontfilename, 24)
 love.graphics.setFont(font)
 
@@ -96,37 +100,53 @@ function gamecallback.draw()
 end
 
 local pausecallback = {}
-function pausecallback.update()
-
-end
+function pausecallback.update() end
 
 function pausecallback.mousepressed(x, y, button)
+    if button == 1 then
+        state = 'game'
+    end
 
+    if button == 2 then
+        state = 'menu'
+        g = nil
+    end
 end
 
 function pausecallback.keypressed(key, scancode, isrepeat)
+    if scancode == 'escape' then
+        state = 'menu'
+        g = nil
+    end
 
+    if scancode == 'space' then
+        state = 'game'
+    end
 end
 
 function pausecallback.draw()
-
+    love.graphics.print('pause')
 end
 
 local menucallback = {}
-function menucallback.update()
-
-end
+function menucallback.update() end
 
 function menucallback.mousepressed(x, y, button)
-
+    if button == 1 then
+        state = 'game'
+        g = game.Game()
+    end
 end
 
 function menucallback.keypressed(key, scancode, isrepeat)
-
+    if scancode == 'space' then
+        state = 'game'
+        g = game.Game()
+    end
 end
 
 function menucallback.draw()
-
+    love.graphics.print('menu')
 end
 
 local callbacks = {
