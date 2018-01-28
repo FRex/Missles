@@ -7,7 +7,9 @@ local meta = {__index = lib}
 function lib.Game()
     local ret = setmetatable({}, meta)
     ret.missles = {}
+    ret.tick = 0
     ret.level = 1
+    ret.enemyMissleBuildup = {amount = 0, buildup = 1 / 180, levelspeedup = 1 / 1800}
     ret.explosions = {}
     local gl = const.groundlevel - const.baseheight / 2
     ret.bases = {
@@ -79,7 +81,23 @@ function lib:destroyStuffInCircle(x, y, r)
     end
 end
 
+local ticksperlevel = 20 * 60
+
 function lib:update()
+    self.tick = self.tick + 1
+    local emb = self.enemyMissleBuildup
+    emb.amount = emb.amount + emb.buildup
+    while emb.amount >= 1 do
+        emb.amount = emb.amount - 1
+        self:fireEnemyMissle()
+    end
+
+    if (self.tick % ticksperlevel) == 0 then
+        self.level = self.level + 1
+        emb.buildup = emb.buildup + emb.levelspeedup
+        --give bases some missles and rebuild some stuff
+    end
+
     for _, m in ipairs(self.missles) do
         local vx, vy = m.gx - m.sx, m.gy - m.sy
         local len = math.sqrt(vx^2 + vy^2)
