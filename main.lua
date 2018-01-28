@@ -4,30 +4,33 @@ local game = require'game'
 local const = require 'const'
 
 local g = game.Game()
+local state = 'game'
 local font = love.graphics.newFont(const.fontfilename, 24)
 love.graphics.setFont(font)
 
-function love.update(dt)
+
+local gamecallback = {}
+function gamecallback.update(dt)
     g:update()
 end
 
-function love.mousepressed(x, y, button)
+function gamecallback.mousepressed(x, y, button)
     if button == 1 then
         g:fireMissleAt(x, y)
     end
 end
 
-function love.keypressed(key, scancode, isrepeat)
+function gamecallback.keypressed(key, scancode, isrepeat)
     if scancode == 'space' then
         g:fireMissleAt(love.mouse.getPosition())
     end
 
-    if scancode == 'e' then
+    if const.dev and scancode == 'e' then
         g:fireEnemyMissle()
     end
 end
 
-function love.draw()
+function gamecallback.draw()
     for _, base in ipairs(g.bases) do
         if base.ok then
             love.graphics.setColor(0x0, 0xff, 0x0)
@@ -81,4 +84,26 @@ function love.draw()
     love.graphics.rectangle('fill', 0, const.groundlevel, 800, 10^5)
     love.graphics.setColor(0xff, 0xff, 0xff)
     love.graphics.print('Level: ' .. g.level, 0, const.groundlevel)
+end
+
+local callbacks = {
+    game = gamecallback,
+    pause = nil,
+    menu = nil,
+}
+
+function love.update(dt)
+    callbacks[state].update(dt)
+end
+
+function love.mousepressed(x, y, button)
+    callbacks[state].mousepressed(x, y, button)
+end
+
+function love.keypressed(key, scancode, isrepeat)
+    callbacks[state].keypressed(key, scancode, isrepeat)
+end
+
+function love.draw()
+    callbacks[state].draw()
 end

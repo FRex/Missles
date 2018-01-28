@@ -10,4 +10,5 @@ return {
     explosionradius = 50,
     misslexrand = 50,
     fontfilename = 'DejaVuSans.ttf',
+    dev = true,
 }
