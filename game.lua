@@ -9,7 +9,7 @@ function lib.Game()
     ret.missles = {}
     ret.tick = 0
     ret.level = 1
-    ret.enemyMissleBuildup = {amount = 0, buildup = 1 / 180, levelspeedup = 1 / 1800}
+    ret.missleBuildup = {amount = 0, buildup = 1 / 180, levelspeedup = 1 / 1800}
     ret.explosions = {}
     local gl = const.groundlevel - const.baseheight / 2
     ret.bases = {
@@ -62,6 +62,15 @@ local function filterok(tab, out)
     return out
 end
 
+local function filternotok(tab, out)
+    for i, v in ipairs(tab) do
+        if not v.ok then
+            table.insert(out, v)
+        end
+    end
+    return out
+end
+
 function lib:fireEnemyMissle()
     local targets = filterok(self.towns, {})
     targets = filterok(self.bases, targets)
@@ -83,19 +92,42 @@ end
 
 local ticksperlevel = 20 * 60
 
+local function randomelem(tab)
+    if #tab == 0 then return nil end
+    return tab[math.random(1, #tab)]
+end
+
 function lib:update()
     self.tick = self.tick + 1
-    local emb = self.enemyMissleBuildup
+    local emb = self.missleBuildup
     emb.amount = emb.amount + emb.buildup
     while emb.amount >= 1 do
         emb.amount = emb.amount - 1
         self:fireEnemyMissle()
+        local b = randomelem(filterok(self.bases, {}))
+        if b then
+            b.ammo = b.ammo + 1
+        end
     end
 
     if (self.tick % ticksperlevel) == 0 then
         self.level = self.level + 1
         emb.buildup = emb.buildup + emb.levelspeedup
-        --give bases some missles and rebuild some stuff
+        local t = randomelem(filternotok(self.towns, {}))
+        local b1 = randomelem(filterok(self.bases, {}))
+        local b2 = randomelem(filternotok(self.bases, {}))
+        if t then
+            t.ok = true
+            t.ammo = 5
+        end
+
+        if b1 then
+            b1.ammo = b1.ammo + 5
+        end
+
+        if b2 then
+            b2.ok = true
+        end
     end
 
     for _, m in ipairs(self.missles) do
