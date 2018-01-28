@@ -9,7 +9,7 @@ return {
     townheight = 30,
     explosionradius = 50,
     misslexrand = 50,
-    fontfilename = 'DejaVuSans.ttf',
+    fontfilename = 'DejaVuSansMono.ttf',
     dev = true,
     initialstate = 'game',
 }

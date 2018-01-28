@@ -10,7 +10,8 @@ if state ~= 'menu' then
     g = game.Game()
 end
 
-local font = love.graphics.newFont(const.fontfilename, 24)
+local fontsize = 24
+local font = love.graphics.newFont(const.fontfilename, fontsize)
 love.graphics.setFont(font)
 
 
@@ -96,7 +97,12 @@ function gamecallback.draw()
     love.graphics.setColor(0x33, 0x24, 0x1f)
     love.graphics.rectangle('fill', 0, const.groundlevel, 800, 10^5)
     love.graphics.setColor(0xff, 0xff, 0xff)
-    love.graphics.print('Level: ' .. g.level, 0, const.groundlevel)
+    local texts = {
+        'Level:' .. g.level,
+        'Score:' .. 123,
+    }
+
+    love.graphics.print(table.concat(texts, '\n'), 0, const.groundlevel)
 end
 
 local pausecallback = {}
