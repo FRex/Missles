@@ -131,7 +131,12 @@ function pausecallback.keypressed(key, scancode, isrepeat)
 end
 
 function pausecallback.draw()
-    love.graphics.print('pause')
+    local msg = [[
+Paused!
+LMB or Space to go back to game.
+RMB or Escape to go back to main menu.
+]]
+    love.graphics.printf(msg, 0, 0, 800, 'center')
 end
 
 local menucallback = {}
@@ -141,6 +146,10 @@ function menucallback.mousepressed(x, y, button)
     if button == 1 then
         state = 'game'
         g = game.Game()
+    end
+
+    if buttons == 2 then
+        love.event.push('quit')
     end
 end
 
@@ -156,7 +165,18 @@ function menucallback.keypressed(key, scancode, isrepeat)
 end
 
 function menucallback.draw()
-    love.graphics.print('menu')
+    local msg = [[
+Missles in Lua framework LÖVE!
+LMB or Space to start a new game.
+RMB or Escape to quit.
+
+
+
+Game made by FRex
+for
+GameDev.net: 2018 New Year Challenge: Missile Command
+]]
+    love.graphics.printf(msg, 0, 0, 800, 'center')
 end
 
 local callbacks = {
