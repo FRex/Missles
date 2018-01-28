@@ -132,7 +132,9 @@ end
 
 function pausecallback.draw()
     local msg = [[
-Paused!
+
+Game paused!
+
 LMB or Space to go back to game.
 RMB or Escape to go back to main menu.
 ]]
@@ -166,9 +168,21 @@ end
 
 function menucallback.draw()
     local msg = [[
+
 Missles in Lua framework LÖVE!
+
+
 LMB or Space to start a new game.
 RMB or Escape to quit.
+
+
+
+In-game controls:
+Mouse movement to aim.
+LMB or Space to shoot a missle.
+RMB or Escape to pause.
+
+
 
 
 
