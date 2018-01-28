@@ -143,6 +143,10 @@ function menucallback.keypressed(key, scancode, isrepeat)
         state = 'game'
         g = game.Game()
     end
+
+    if scancode == 'escape' then
+        love.event.push('quit')
+    end
 end
 
 function menucallback.draw()
