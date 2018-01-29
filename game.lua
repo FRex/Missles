@@ -1,5 +1,6 @@
 local utils = require 'utils'
 local const = require 'const'
+local SoundBoard = require'SoundBoard'
 
 local lib = {}
 local meta = {__index = lib}
@@ -55,6 +56,7 @@ function lib:fireMissleAt(x, y)
     if not base then return false end
     base.ammo = base.ammo - 1
     table.insert(self.missles, Missle(base.x, base.y - const.baseheight / 2, x, y, const.misslespeed, false))
+    SoundBoard.play('missle')
     return true
 end
 
