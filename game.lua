@@ -12,23 +12,25 @@ function lib.Game()
     ret.missleBuildup = {amount = 0, buildup = 1 / 180, levelspeedup = 1 / 1800}
     ret.explosions = {}
     ret.lost = false
-    ret.score = 123456
+    ret.score = 0
     local gl = const.groundlevel - const.baseheight / 2
     ret.bases = {
-        {x = 100, y = gl, ammo = 5, ok = true},
-        {x = 400, y = gl, ammo = 5, ok = true},
-        {x = 700, y = gl, ammo = 5, ok = true},
+        {x = 100, y = gl, ammo = 5, ok = true, isbase = true},
+        {x = 400, y = gl, ammo = 5, ok = true, isbase = true},
+        {x = 700, y = gl, ammo = 5, ok = true, isbase = true},
     }
+
     local gl = const.groundlevel - const.townheight / 2
     ret.towns = {
-        {x = 175, y = gl, ok = true},
-        {x = 250, y = gl, ok = true},
-        {x = 325, y = gl, ok = true},
+        {x = 175, y = gl, ok = true, istown = true},
+        {x = 250, y = gl, ok = true, istown = true},
+        {x = 325, y = gl, ok = true, istown = true},
         --middle base is here
-        {x = 475, y = gl, ok = true},
-        {x = 550, y = gl, ok = true},
-        {x = 625, y = gl, ok = true},
+        {x = 475, y = gl, ok = true, istown = true},
+        {x = 550, y = gl, ok = true, istown = true},
+        {x = 625, y = gl, ok = true, istown = true},
     }
+
     return ret
 end
 
@@ -86,7 +88,10 @@ end
 function lib:destroyStuffInCircle(x, y, r)
     for _, c in ipairs{self.bases, self.towns, self.missles} do
         for _, o in ipairs(c) do
-            if utils.distance(o.x, o.y, x, y) < r then
+            if o.ok and utils.distance(o.x, o.y, x, y) < r then
+                if o.enemy then self:addScore(10) end
+                if o.isbase then self:addScore(-50) end
+                if o.istown then self:addScore(-100) end
                 o.ok = false
             end
         end
@@ -98,6 +103,11 @@ local ticksperlevel = 20 * 60
 local function randomelem(tab)
     if #tab == 0 then return nil end
     return tab[math.random(1, #tab)]
+end
+
+function lib:addScore(amount)
+    if self.lost then return end
+    self.score = math.max(0, self.score + amount)
 end
 
 function lib:update()
