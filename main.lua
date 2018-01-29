@@ -86,22 +86,26 @@ function gamecallback.draw()
         love.graphics.circle('fill', e.x, e.y, const.explosionradius)
     end
 
-    love.graphics.setColor(0x0, 0x7f, 0x0, 0x7f)
-    local x, y = love.mouse.getPosition()
-    local b = g:getNearestWorkingBase(x, y)
-    if b then
-        love.graphics.line(b.x, b.y - const.baseheight / 2, x, y)
-        love.graphics.circle('fill', x, y, const.explosionradius)
+    if not g.lost then
+        love.graphics.setColor(0x0, 0x7f, 0x0, 0x7f)
+        local x, y = love.mouse.getPosition()
+        local b = g:getNearestWorkingBase(x, y)
+        if b then
+            love.graphics.line(b.x, b.y - const.baseheight / 2, x, y)
+            love.graphics.circle('fill', x, y, const.explosionradius)
+        end
     end
 
     love.graphics.setColor(0x33, 0x24, 0x1f)
     love.graphics.rectangle('fill', 0, const.groundlevel, 800, 10^5)
     love.graphics.setColor(0xff, 0xff, 0xff)
-    local texts = {
-        'Level:' .. g.level,
-        'Score:' .. 123,
-    }
 
+    local texts
+    if g.lost then
+        texts = {"It's over.", 'You lost.', g.score .. ' points.'}
+    else
+        texts = {'Level: ' .. g.level, 'Score: ' .. g.score}
+    end
     love.graphics.print(table.concat(texts, '\n'), 0, const.groundlevel)
 end
 

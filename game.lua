@@ -11,6 +11,8 @@ function lib.Game()
     ret.level = 1
     ret.missleBuildup = {amount = 0, buildup = 1 / 180, levelspeedup = 1 / 1800}
     ret.explosions = {}
+    ret.lost = false
+    ret.score = 123456
     local gl = const.groundlevel - const.baseheight / 2
     ret.bases = {
         {x = 100, y = gl, ammo = 5, ok = true},
@@ -46,6 +48,7 @@ local function Missle(x, y, gx, gy, s, en)
 end
 
 function lib:fireMissleAt(x, y)
+    if self.lost then return false end
     local base = self:getNearestWorkingBase(x, y)
     if not base then return false end
     base.ammo = base.ammo - 1
@@ -105,12 +108,12 @@ function lib:update()
         emb.amount = emb.amount - 1
         self:fireEnemyMissle()
         local b = randomelem(filterok(self.bases, {}))
-        if b then
+        if not self.lost and b then
             b.ammo = b.ammo + 1
         end
     end
 
-    if (self.tick % ticksperlevel) == 0 then
+    if not self.lost and self.tick % ticksperlevel == 0 then
         self.level = self.level + 1
         emb.buildup = emb.buildup + emb.levelspeedup
         local t = randomelem(filternotok(self.towns, {}))
@@ -150,6 +153,11 @@ function lib:update()
 
     utils.removeif(self.missles, function(m) return not m.ok end)
     utils.removeif(self.explosions, function(e) return e.frames > const.explosionmaxframes end)
+
+    local townsokcount = #filterok(self.towns, {})
+    if townsokcount == 0 then
+        self.lost = true
+    end
 end
 
 return lib
