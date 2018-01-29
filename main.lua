@@ -180,7 +180,6 @@ LMB or Space to start a new game.
 RMB or Escape to quit.
 
 
-
 In-game controls:
 Mouse movement to aim.
 LMB or Space to shoot a missle.
@@ -189,10 +188,11 @@ RMB or Escape to pause.
 
 
 
-
 Game made by FRex
 for
-GameDev.net: 2018 New Year Challenge: Missile Command
+GameDev.net 2018 New Year Challenge: Missile Command
+
+Source code: https://github.com/FRex/Missles
 ]]
     love.graphics.printf(msg, 0, 0, 800, 'center')
 end
