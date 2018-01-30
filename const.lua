@@ -10,6 +10,6 @@ return {
     explosionradius = 50,
     misslexrand = 50,
     fontfilename = 'DejaVuSansMono.ttf',
-    dev = true,
+    dev = false,
     initialstate = 'game',
 }
