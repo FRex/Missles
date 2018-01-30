@@ -127,6 +127,7 @@ function lib:update()
 
     if not self.lost and self.tick % ticksperlevel == 0 then
         self.level = self.level + 1
+        SoundBoard.play('levelup')
         emb.buildup = emb.buildup + emb.levelspeedup
         local t = randomelem(filternotok(self.towns, {}))
         local b1 = randomelem(filterok(self.bases, {}))
@@ -155,6 +156,7 @@ function lib:update()
         if dcurfromstart > dstartfromgoal then
             m.ok = false
             table.insert(self.explosions, {x=m.gx, y=m.gy, frames=0})
+            SoundBoard.play('explosion')
             self:destroyStuffInCircle(m.gx, m.gy, const.explosionradius)
         end
     end

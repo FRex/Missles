@@ -173,7 +173,7 @@ end
 function menucallback.draw()
     local msg = [[
 
-Missles in Lua framework LÖVE!
+Missles in Lua made using LÖVE, SLAM and sfxr!
 
 
 LMB or Space to start a new game.
