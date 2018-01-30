@@ -11,5 +11,5 @@ return {
     misslexrand = 50,
     fontfilename = 'DejaVuSansMono.ttf',
     dev = false,
-    initialstate = 'game',
+    initialstate = 'menu',
 }

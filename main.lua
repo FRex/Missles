@@ -102,7 +102,7 @@ function gamecallback.draw()
 
     local texts
     if g.lost then
-        texts = {"It's over.", 'You lost.', g.score .. ' points.'}
+        texts = {"It's over. You lost.", g.score .. ' points. Level ' .. g.level .. '.'}
     else
         texts = {'Level: ' .. g.level, 'Score: ' .. g.score}
     end
